@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Ngoma - Log In</title>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Dispaly:wght@900&display=swap" rel="stylesheet">
         <style>
             * { box-sizing: border-box; }
             body {
@@ -10,9 +11,54 @@
                 background: linear-gradient(135deg, #1f6f63, #4fd1c5);
                 min-height: 100vh;
                 display: flex;
+                flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 margin: 0;
+            }
+
+            @keyframes fadeInDown {
+                from { opacity: 0; transform: translateY(-10px); }
+                to {opacity: 1; transform: translateY(0); }
+            }
+
+            .tagline-wrap {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                margin-bottom: 10px;
+                opacity: 0;
+                animation: fadeInDown 0.8s ease 0.1s forwards;
+            }
+
+            .tagline-wrap::before,
+            .tagline-wrap::after {
+                content: '';
+                width: 40px;
+                height: 1px;
+                color: rgba(255, 255, 255, 0.55);
+
+            }
+
+            .tagline {
+                color: rgba(255, 255, 255, 0.9);
+                font-size: 12px;
+                font-weight:600;
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                white-space: nowrap;
+            }
+
+            .brand {
+                font-family: 'Playfair Display', serif;
+                color: #fff;
+                font-size: 48px;
+                font-weight: 900;
+                margin-bottom: 24px;
+                letter-spacing: 1px;
+                text-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+                opacity: 0;
+                animation: fadeInDown 0.8s ease 0.3s forwards;
             }
             .card {
                 background: #fff;
@@ -98,6 +144,10 @@
         </style>
 </head>
     <body>
+    <div class="tagline-wrap">
+        <span class="tagline">Where spirituality meets technology</span>
+    </div>
+    <h2 class="brand">Ngoma</h2>
     <div class="card">
         <h1>Login Form</h1>
         <div class="tabs">
