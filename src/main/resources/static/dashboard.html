@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ngoma — Dashboard</title>
+    <style>
+        body { font-family: sans-serif; max-width: 400px; margin: 80px auto; padding: 0 20px; }
+        button { padding: 10px 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+<h1>Welcome</h1>
+<p>You're logged in.</p>
+<button id="logoutBtn">Log out</button>
+
+<script>
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+        await fetch('/api/logout', { method: 'POST' });
+        window.location.href = '/index.html';
+    });
+</script>
+</body>
+</html>
