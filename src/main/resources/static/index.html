@@ -1,50 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Ngoma - Log In</title>
-    <style>
-        body {font-family: san-serif; max-width: 400px; margin: 80px auto; padding: 0 20px; }
-        input { display: block; width: 100%; padding: 8px; margin: 8px 0 16px; box-sizing:border-box; }
-        button { padding: 10px 16px; cursor: pointer; }
-        #error {color: red; display: none; margin-bottom: 12px; }
-    </style>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Ngoma - Log In</title>
+        <style>
+            * { box-sizing: border-box; }
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                background: linear-gradient(135deg, #1f6f63, #4fd1c5);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+            }
+            .card {
+                background: #fff;
+                padding: 40px;
+                border-radius: 16px;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+                width: 100%;
+                max-width: 400px;
+            }
+            .card h1 {
+                margin: 0 0 24px;
+                font-size: 26px;
+                font-weight: 800;
+                color: #1a1a1a;
+                text-align: center;
+            }
+            .tabs {
+                display: flex;
+                border: 1px solid #e2e2e2;
+                border-radius: 10px;
+                overflow: hidden;
+                margin-bottom: 24px;
+            }
+            .tab {
+                flex: 1;
+                text-align: center;
+                padding: 12px;
+                font-weight: 700;
+                font-size: 14px;
+                text-decoration: none;
+                color: #444;
+                background: #fff;
+            }
+            .tab.active {
+                background: linear-gradient(135deg, #2e9385, #45c7b3);
+                color: #fff;
+            }
+            .card input {
+                display: block;
+                width: 100%;
+                padding: 13px 14px;
+                margin-bottom: 16px;
+                border: 1px solid #ddd;
+                border-radius: 10px;
+                font-size: 14px;
+            }
+            .card input::placeholder { color: #999; }
+            .card input:focus {
+                outline: none;
+                border-color: #2e9385;
+            }
+            .card button {
+                width: 100%;
+                padding: 13px;
+                background: linear-gradient(135deg, #2e9385, #45c7b3);
+                color: #fff;
+                border: none;
+                border-radius: 10px;
+                font-size: 15px;
+                font-weight: 700;
+                cursor: pointer;
+                margin-top: 4px;
+            }
+            .card button:hover { opacity: 0.92; }
+            .card p {
+                text-align: center;
+                margin: 20px 0 0;
+                font-size: 14px;
+                color: #555;
+            }
+            .card a.link { color: #2e9385; text-decoration: none; font-weight: 700; }
+            .card a.link:hover { text-decoration: underline; }
+            #error {
+                color: #dc2626;
+                background: #fef2f2;
+                border: 1px solid #fecaca;
+                padding: 10px 12px;
+                border-radius: 8px;
+                font-size: 13px;
+                display: none;
+                margin-bottom: 16px;
+            }
+        </style>
 </head>
-<body>
-<h1>Log in</h1>
-<div id="error"></div>
-<form id="loginForm">
-    <label for="email">Email</label>
-    <input type="email" id="email" required>
+    <body>
+    <div class="card">
+        <h1>Login Form</h1>
+        <div class="tabs">
+            <span class="tab active">Login</span>
+            <a class="tab" href="/signup.html">Signup</a>
+        </div>
+        <div id="error"></div>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="Email Address" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p>Not a member? <a class="link" href="/signup.html">Signup now</a></p>
+    </div>
 
-    <label for="password">Password</label>
-    <input type="password" id="password" required>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const errorDiv = document.getElementById('error');
+            errorDiv.style.display = 'none';
 
-    <button type="submit">Log in</button>
-</form>
-<p>Don't have an account? <a href="/signup.html">Sign up</a></p>
-<script>
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const errorDiv = document.getElementById('error');
-        errorDiv.style.display = 'none';
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ username: email, password: password })
+            });
 
-        const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
-            body: new URLSearchParams({ username: email, password: password})
+            if (response.ok) {
+                window.location.href = '/dashboard.html';
+            } else {
+                errorDiv.textContent = 'Invalid email or password.';
+                errorDiv.style.display = 'block';
+            }
         });
-
-        if (response.ok) {
-            window.location.href = '/dashboard.html';
-        } else {
-            errorDiv.textContent = 'Invalid email or password.';
-            errorDiv.style.display = 'block';
-        }
-    });
-</script>
-</body>
+    </script>
+    </body>
 </html>
