@@ -1,17 +1,17 @@
 # Ngoma - Authentication App (Spring Boot)
 
-* Note that this repository is public and 'ngoma.db' (the SQLite database file)
+* Note that this repository is public and 'ngoma.db' (the SQLite database file) is committed and visible to anyone. Do not sign up with a real email or password — use throwaway test credentials only.
 
 ## Table of Contents
-- [Prerequisites]()
-- [Getting Started]()
-- [Cloning the Project]()
-- [Install Requirements]()
-- [Set Environment Variables]()
-- [Run the Project]()
-- [Project Structure]()
-- [API Endpoints]()
-- [Tech Stack]()
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Cloning the Project](#cloning-the-project)
+- [Install Requirements](#install-requirements)
+- [Set Environment Variables](#set-environment-variables)
+- [Run the Project](#run-the-project)
+- [Project Structure](#project-structure)
+- [API Endpoints](#api-endpoints)
+- [Tech Stack](#tech-stack)
 
 ## Prerequisites
 - [Java 21+ (JDK)](https://adoptium.net/)
@@ -28,7 +28,7 @@ To clone this project to local your local machine, use the following command:
 
 *linux, macOS, windows*
 
-git clone https://github.com/oyisam40/Ngoma.git
+git clone http://github.com/oyisam40/Ngoma.git
 
 ### Install Requirements
 
