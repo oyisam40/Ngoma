@@ -147,6 +147,11 @@
             outline: none;
             border-color: #2e9385;
         }
+        .name-row {
+            display: flex;
+            gap: 12px;
+        }
+        .name-row input { flex: 1; }
         .card button {
             width: 100%;
             padding: 13px;
@@ -193,7 +198,12 @@
         <span class="tab active">Signup</span>
     </div>
     <div id="error"></div>
-    <form id="signupForm">
+    <form id="signupForm" novalidate>
+        <div class="name-row">
+            <input type="text" id="firstName" placeholder="First Name" required>
+            <input type="text" id="lastName" placeholder="Last Name" required>
+        </div>
+        <input type="tel" id="phoneNumber" placeholder="Phone Number" required>
         <input type="email" id="email" placeholder="Email Address" required>
         <input type="password" id="password" placeholder="Password" minlength="8" required>
         <button type="submit">Sign up</button>
@@ -222,19 +232,29 @@
         const errorDiv = document.getElementById('error');
         errorDiv.style.display = 'none';
 
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const phoneNumber = document.getElementById('phoneNumber').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
+
+        if (!firstName || !lastName || !phoneNumber || !email || !password) {
+        errorDiv.textContent = 'Please fill in all fields.';
+        errorDiv.style.display = 'block';
+        return;
+}
 
         const response = await fetch('/api/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ firstName, lastName, phoneNumber, email, password })
         });
 
         if (response.ok) {
-            window.location.href = '/index.html';
+            window.location.href = '/verify-pending.html';
         } else if (response.status === 409) {
-            errorDiv.textContent = 'That email is already registered.';
+            const message = await response.text();
+            errorDiv.textContent = message;
             errorDiv.style.display = 'block';
         } else {
             errorDiv.textContent = 'Something went wrong. Please check your details.';

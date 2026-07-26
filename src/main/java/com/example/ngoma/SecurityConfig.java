@@ -2,6 +2,7 @@ package com.example.ngoma;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,6 +18,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
+
         return new BCryptPasswordEncoder();
     }
 
@@ -27,7 +29,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/", "/index.html", "/signup.html",
-                                "/api/signup", "/api/login",
+                                "/forgot-password.html", "/reset-password.html", "/verify.html", "/verify-pending.html",
+                                "/api/signup", "/api/login", "/api/forgot-password", "/api/reset-password", "/api/verify",
                                 "/*.css", "/*.js"
                         ).permitAll()
                         .requestMatchers("/dashboard.html", "/api/dashboard").authenticated()
@@ -36,7 +39,15 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginProcessingUrl("/api/login")
                         .successHandler((req, res, auth) -> res.setStatus(200))
-                        .failureHandler((req, res, ex) -> res.setStatus(401))
+                        .failureHandler((req, res, ex) -> {
+                            res.setStatus(401);
+                            res.setContentType("text/plain");
+                            if (ex instanceof DisabledException) {
+                                res.getWriter().write("Please verify your email before logging in.");
+                            } else {
+                                res.getWriter().write("Invalid email or password.");
+                            }
+                        })
                         .permitAll()
                 )
                 .logout(logout -> logout

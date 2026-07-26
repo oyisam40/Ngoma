@@ -147,6 +147,17 @@
             outline: none;
             border-color: #2e9385;
         }
+        .forgot-link{
+            display: block;
+            text-align: right;
+            font-size: 13px;
+            color: #2e9385;
+            text-decoration: none;
+            font-weight: 600;
+            margin: -8px 0 16px;
+        }
+        .forgot-link:hover { text-decoration: underline; }
+
         .card button {
             width: 100%;
             padding: 13px;
@@ -193,9 +204,10 @@
         <a class="tab" href="/signup.html">Signup</a>
     </div>
     <div id="error"></div>
-    <form id="loginForm">
+    <form id="loginForm" novalidate>
         <input type="email" id="email" placeholder="Email Address" required>
         <input type="password" id="password" placeholder="Password" required>
+        <a class="forgot-link" href="/forgot-password.html">Forgot Password</a>
         <button type="submit">Login</button>
     </form>
     <p>Not a member? <a class="link" href="/signup.html">Signup now</a></p>
@@ -222,8 +234,14 @@
         const errorDiv = document.getElementById('error');
         errorDiv.style.display = 'none';
 
-        const email = document.getElementById('email').value;
+        const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
+
+        if (!email || !password) {
+            errorDiv.textContent = 'Please fill in all fields.';
+            errorDiv.style.display = 'block';
+            return;
+        }
 
         const response = await fetch('/api/login', {
             method: 'POST',
@@ -234,7 +252,8 @@
         if (response.ok) {
             window.location.href = '/dashboard.html';
         } else {
-            errorDiv.textContent = 'Invalid email or password.';
+            const message = await response.text();
+            errorDiv.textContent = message || 'Invalid email or password.';
             errorDiv.style.display = 'block';
         }
     });

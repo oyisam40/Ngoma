@@ -25,6 +25,7 @@ public class CustomerUserDetailsService implements UserDetailsService {
                 .username(user.getEmail())
                 .password(user.getPassword())
                 .roles("USER")
+                .disabled(!user.isEnabled())
                 .build();
     }
 }

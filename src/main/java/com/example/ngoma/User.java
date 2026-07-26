@@ -20,6 +20,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    @NotBlank
+    private String firstName;
+
+    @Column(nullable = false)
+    @NotBlank
+    private String lastName;
+
+    @Column(nullable = false, unique = true)
+    @NotBlank
+    private String phoneNumber;
+
     @Column(nullable = false, unique = true)
     @Email
     @NotBlank
@@ -28,6 +40,9 @@ public class User {
     @Column(nullable = false)
     @NotBlank
     private String password;
+
+    @Column(nullable = false)
+    private boolean enabled = false;
 
 
 }
