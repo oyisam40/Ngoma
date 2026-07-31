@@ -40,7 +40,7 @@ public class PasswordResetController {
             PasswordResetToken resetToken = new PasswordResetToken();
             resetToken.setToken(token);
             resetToken.setEmail(user.getEmail());
-            resetToken.setExpiryDate(LocalDateTime.now().plusMinutes(15));
+            resetToken.setExpiryDate(LocalDateTime.now().plusMinutes(5));
             tokenRepository.save(resetToken);
 
             emailService.sendPasswordResetEmail(user.getEmail(), token);

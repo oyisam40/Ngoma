@@ -48,7 +48,7 @@ public class AuthController {
         EmailVerificationToken verificationToken = new EmailVerificationToken();
         verificationToken.setToken(token);
         verificationToken.setEmail(user.getEmail());
-        verificationToken.setExpiryDate(LocalDateTime.now().plusHours(24));
+        verificationToken.setExpiryDate(LocalDateTime.now().plusMinutes(5));
         verificationTokenRepository.save(verificationToken);
 
         emailService.sendVerificationEmail(user.getEmail(), token);

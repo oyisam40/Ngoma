@@ -16,6 +16,7 @@
             --accent2: #45c7b3;
             --green: #16a34a;
             --amber: #f59e0b;
+            --red: #dc2626;
             --text: #1a1a1a;
             --text-muted: #666;
             --grid-line: rgba(0,0,0,0.08);
@@ -30,6 +31,7 @@
             --accent2: #2e9385;
             --green: #34d399;
             --amber: #f59e0b;
+            --red: #f87171;
             --text: #ffffff;
             --text-muted: rgba(255,255,255,0.62);
             --grid-line: rgba(255,255,255,0.08);
@@ -87,65 +89,168 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 20px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
         }
+        .stat-card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 18px 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+        }
+        .stat-card .num { font-size: 30px; font-weight: 800; line-height: 1; }
+        .stat-card .lbl { color: var(--text-muted); font-size: 12.5px; margin-top: 6px; }
+
         .card {
             background: var(--card);
             border-radius: 16px;
-            padding: 28px;
+            padding: 24px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.12);
             transition: background 0.3s;
         }
         .card-title { font-size: 15px; font-weight: 700; color: var(--text); margin: 0 0 4px; }
-        .card-sub { color: var(--text-muted); font-size: 13px; margin: 0 0 18px; }
+        .card-sub { color: var(--text-muted); font-size: 13px; margin: 0 0 16px; }
 
-        .stat-value { font-size: 52px; font-weight: 800; line-height: 1; }
-        .stat-value sup { font-size: 22px; font-weight: 700; margin-left: 4px; }
-        .stat-label { color: var(--text-muted); font-size: 16px; margin: 8px 0 24px; }
-        .progress-track { height: 8px; background: var(--grid-line); border-radius: 4px; overflow: hidden; }
-        .progress-fill { height: 100%; width: 78%; background: var(--green); border-radius: 4px; }
-        .progress-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 13px; }
-        .progress-labels .pct { color: var(--green); font-weight: 700; }
-        .progress-labels .goal { color: var(--text-muted); }
-
-        .chart-row { display: flex; gap: 32px; }
-        .chart-col { flex: 1.4; }
-        .gauge-col { flex: 1; text-align: center; }
-        canvas { max-width: 100%; }
-
-        .gauge-wrap { position: relative; width: 200px; height: 100px; margin: 0 auto 14px; overflow: hidden; }
-        .gauge-arc {
-            width: 200px; height: 200px; border-radius: 50%;
-            background: conic-gradient(from -90deg, var(--grid-line) 0deg 126deg, var(--green) 126deg 180deg);
+        .charts-row {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
         }
-        .gauge-tick { position: absolute; top: 8px; left: 148px; width: 2px; height: 22px; background: var(--amber); transform: rotate(20deg); transform-origin: bottom center; }
-        .gauge-needle { position: absolute; bottom: 0; left: 98px; width: 3px; height: 88px; background: var(--text); border-radius: 2px; transform: rotate(28deg); transform-origin: bottom center; }
-        .gauge-hub { position: absolute; bottom: -8px; left: 88px; width: 20px; height: 20px; border-radius: 50%; background: var(--text); }
-        .gauge-scale { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-top: -4px; }
-        .gauge-value { font-size: 34px; font-weight: 800; margin-top: 10px; }
 
-        .activity-card { grid-column: 1 / -1; }
-        .activity-grid { display: flex; gap: 28px; margin-top: 18px; }
-        .activity-number {
-            flex: 0 0 220px;
+        .manage-card { grid-column: 1 / -1; }
+
+        .product-form {
+            display: grid;
+            grid-template-columns: 1.3fr 1.6fr 1fr 1fr 1.3fr 1.6fr auto;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .thumb {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
             background: var(--card-inner);
-            border: 1px solid var(--accent2);
-            border-radius: 12px;
+            border: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .thumb-placeholder{
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--border);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .name-cell { display: flex; align-items: center; gap: 10px; }
+        .product-form input, .product-form select {
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--card-inner);
+            color: var(--text);
+            font-size: 13px;
+            width: 100%;
+        }
+        .product-form button {
+            padding: 10px 16px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .product-form button:hover { opacity: 0.9; }
+        .form-cancel {
+            background: var(--card-inner) !important;
+            color: var(--text) !important;
+            border: 1px solid var(--border) !important;
+            display: none;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: var(--card);
+            border-radius: 14px;
             padding: 24px;
-            position: relative;
+            max-width: 320px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
-        .activity-number .big { font-size: 48px; font-weight: 800; }
-        .activity-number .lbl { color: var(--text-muted); font-size: 15px; margin-top: 6px; }
-        .check-badge {
-            position: absolute; bottom: 16px; right: 16px;
-            width: 34px; height: 34px; border-radius: 50%;
-            background: var(--green);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 16px; font-weight: 800; color: #063a2c;
+        .modal-text { font-size: 14px; color: var(--text); margin: 0 0 20px; }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+        .modal-cancel, .modal-confirm {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
         }
-        .activity-chart { flex: 1; }
-        .activity-chart h3 { font-size: 14px; margin: 0 0 12px; color: var(--text); }
+        .modal-cancel { background: var(--card-inner); color: var(--text); border: 1px solid var(--border); }
+        .modal-confirm { background: var(--red); color: #fff; }
+
+        table.product-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        table.product-table th {
+            text-align: left;
+            color: var(--text-muted);
+            font-weight: 600;
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        table.product-table td {
+            padding: 10px 10px;
+            border-bottom: 1px solid var(--grid-line);
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            background: var(--card-inner);
+            color: var(--accent);
+        }
+        .row-actions button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            margin-right: 10px;
+            padding: 0;
+        }
+        .row-actions .edit-btn { color: var(--accent); }
+        .row-actions .delete-btn { color: var(--red); }
+        .row-actions button:hover { text-decoration: underline; }
+
+        #productMsg {
+            font-size: 13px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 14px;
+            display: none;
+        }
+        #productMsg.success { background: #f0fdf4; color: #166534; display: block; }
+        #productMsg.error { background: #fef2f2; color: #dc2626; display: block; }
 
         footer {
             max-width: 1200px;
@@ -160,11 +265,10 @@
         footer .foot-left .dot { width: 22px; height: 22px; border-radius: 6px; background: var(--accent2); }
         #clock { font-variant-numeric: tabular-nums; }
 
-        @media (max-width: 860px) {
-            .dash { grid-template-columns: 1fr; }
-            .chart-row { flex-direction: column; }
-            .activity-grid { flex-direction: column; }
-            .activity-number { flex: none; }
+        @media (max-width: 960px) {
+            .dash { grid-template-columns: repeat(2, 1fr); }
+            .charts-row { grid-template-columns: 1fr; }
+            .product-form { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -178,53 +282,81 @@
 </div>
 
 <div class="dash">
-    <div class="card">
-        <div class="stat-value">1,204<sup>members</sup></div>
-        <div class="stat-label">Total members this month</div>
-        <div class="progress-track"><div class="progress-fill"></div></div>
-        <div class="progress-labels">
-            <span class="pct">120%</span>
-            <span class="goal">Goal: 1,000</span>
+    <div class="stat-card">
+        <div class="num" id="statTotalMembers">-</div>
+        <div class="lbl">Total members</div>
+    </div>
+    <div class="stat-card">
+        <div class="num" id="statVerified">-</div>
+        <div class="lbl">Verified</div>
+    </div>
+    <div class="stat-card">
+        <div class="num" id="statPending">-</div>
+        <div class="lbl">Pending verification</div>
+    </div>
+    <div class="stat-card">
+        <div class="num" id="statTotalProducts">-</div>
+        <div class="lbl">Total products</div>
+    </div>
+    <div class="stat-card">
+        <div class="num" id="statTotalCategories">-</div>
+        <div class="lbl">Categories</div>
+    </div>
+
+    <div class="charts-row">
+        <div class="card">
+            <div class="card-title">Member status</div>
+            <div class="card-sub">Verified vs. pending</div>
+            <canvas id="statusChart" height="140"></canvas>
+        </div>
+        <div class="card">
+            <div class="card-title">Products per category</div>
+            <div class="card-sub">Live count from your catalog</div>
+            <canvas id="categoryChart" height="140"></canvas>
         </div>
     </div>
 
-    <div class="card">
-        <div class="chart-row">
-            <div class="chart-col">
-                <div class="card-title">New sign-ups</div>
-                <div class="card-sub">Past 30 days</div>
-                <canvas id="lineChart" height="140"></canvas>
-            </div>
-            <div class="gauge-col">
-                <div class="card-title">This week</div>
-                <div class="card-sub">Avg. daily sign-ups</div>
-                <div class="gauge-wrap">
-                    <div class="gauge-arc"></div>
-                    <div class="gauge-tick"></div>
-                    <div class="gauge-needle"></div>
-                    <div class="gauge-hub"></div>
+    <div class="card manage-card">
+        <div class="card-title">Manage products</div>
+        <div class="card-sub">Add, edit, or remove products in your catalog</div>
+
+        <div id="productMsg"></div>
+
+        <form class="product-form" id="productForm" novalidate>
+            <input type="hidden" id="productId">
+            <input type="text" id="pName" placeholder="Product name" required>
+            <input type="text" id="pDescription" placeholder="Description">
+            <input type="number" id="pPrice" placeholder="Price" min="0" step="0.01" required>
+            <input type="number" id="pStock" placeholder="Stock" min="0" required>
+            <select id="pCategory" required>
+                <option value="">Category…</option>
+            </select>
+            <input type="url" id="pImageUrl" placeholder="Image URL (optional)">
+            <button type="submit" id="pSubmitBtn">Add product</button>
+        </form>
+        <button type="button" class="form-cancel" id="pCancelBtn" style="margin: -10px 0 20px;">Cancel edit</button>
+
+        <table class="product-table">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="productTableBody"></tbody>
+        </table>
+
+        <div id="deleteModal" class="modal-overlay">
+            <div class="modal-box">
+                <p class="modal-text">Delete this product? This can't be undone.</p>
+                <div class="modal-actions">
+                    <button id="deleteCancelBtn" class="modal-cancel">Cancel</button>
+                    <button id="deleteConfirmBtn" class="modal-confirm">Delete</button>
                 </div>
-                <div class="gauge-scale"><span>0</span><span>100</span></div>
-                <div class="gauge-value">62</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card activity-card">
-        <div class="card-title">Sign-ups today</div>
-        <div class="activity-grid">
-            <div class="activity-number">
-                <div class="big">18</div>
-                <div class="lbl">...so far</div>
-                <div class="check-badge">&#10003;</div>
-            </div>
-            <div class="activity-chart">
-                <h3>By status</h3>
-                <canvas id="statusChart" height="110"></canvas>
-            </div>
-            <div class="activity-chart">
-                <h3>Sign-ups per hour</h3>
-                <canvas id="hourChart" height="110"></canvas>
             </div>
         </div>
     </div>
@@ -272,71 +404,225 @@
     Chart.defaults.font.family = "-apple-system, 'Segoe UI', Roboto, sans-serif";
     const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--grid-line');
 
-    new Chart(document.getElementById('lineChart'), {
-        type: 'line',
-        data: {
-            labels: ['1', '5', '10', '15', '20', '25', '30'],
-            datasets: [{
-                data: [12, 14, 13, 40, 44, 41, 46],
-                borderColor: '#4fd1c5',
-                backgroundColor: 'rgba(79,209,197,0.15)',
-                fill: true,
-                tension: 0.35,
-                pointRadius: 0,
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: { legend: { display: false } },
-            scales: {
-                x: { grid: { color: gridColor } },
-                y: { grid: { color: gridColor }, beginAtZero: true }
-            }
+    let statusChart, categoryChart;
+
+
+    async function loadDashboard() {
+        try {
+            const res = await fetch('/api/dashboard');
+            if (!res.ok) return;
+            const data = await res.json();
+
+            document.getElementById('statTotalMembers').textContent = data.totalMembers;
+            document.getElementById('statVerified').textContent = data.verifiedMembers;
+            document.getElementById('statPending').textContent = data.pendingMembers;
+            document.getElementById('statTotalProducts').textContent = data.totalProducts;
+            document.getElementById('statTotalCategories').textContent = data.totalCategories;
+
+            if (statusChart) statusChart.destroy();
+            statusChart = new Chart(document.getElementById('statusChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Verified', 'Pending'],
+                    datasets: [{
+                        data: [data.verifiedMembers, data.pendingMembers],
+                        backgroundColor: ['#16a34a', '#f59e0b'],
+                        borderRadius: 6,
+                        maxBarThickness: 60
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { grid: { color: gridColor }, beginAtZero: true, ticks: { precision: 0 } }
+                    }
+                }
+            });
+
+            const categoryLabels = Object.keys(data.productsPerCategory);
+            const categoryCounts = Object.values(data.productsPerCategory);
+
+            if (categoryChart) categoryChart.destroy();
+            categoryChart = new Chart(document.getElementById('categoryChart'), {
+                type: 'bar',
+                data: {
+                    labels: categoryLabels,
+                    datasets: [{
+                        data: categoryCounts,
+                        backgroundColor: '#2e9385',
+                        borderRadius: 6,
+                        maxBarThickness: 44
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { grid: { color: gridColor }, beginAtZero: true, ticks: { precision: 0 } }
+                    }
+                }
+            });
+        } catch (e) {
+            console.error('Failed to load dashboard stats', e);
+        }
+    }
+
+
+    let categoriesCache = [];
+
+    async function loadCategories() {
+        const res = await fetch('/api/categories');
+        categoriesCache = await res.json();
+        const select = document.getElementById('pCategory');
+        select.innerHTML = '<option value="">Category…</option>';
+        categoriesCache.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            opt.textContent = c.name;
+            select.appendChild(opt);
+        });
+    }
+
+    async function loadProducts() {
+        const res = await fetch('/api/products');
+        const products = await res.json();
+        const tbody = document.getElementById('productTableBody');
+        tbody.innerHTML = '';
+
+        products.forEach(p => {
+            const tr = document.createElement('tr');
+            const thumbHtml = p.imageUrl
+                ? `<img class="thumb" src="${p.imageUrl}" alt="${p.name}" onerror="this.outerHTML='<span class=\\'thumb-placeholder\\'>—</span>'">`
+                : `<span class="thumb-placeholder">—</span>`;
+            tr.innerHTML = `
+                <td>${thumbHtml}</td>
+                <td>${p.name}</td>
+                <td><span class="badge">${p.category ? p.category.name : '—'}</span></td>
+                <td>R${Number(p.price).toFixed(2)}</td>
+                <td>${p.stock}</td>
+                <td class="row-actions">
+                    <button class="edit-btn" data-id="${p.id}">Edit</button>
+                    <button class="delete-btn" data-id="${p.id}">Delete</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        tbody.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', () => startEdit(products.find(p => p.id == btn.dataset.id)));
+        });
+        tbody.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', () => deleteProduct(btn.dataset.id));
+        });
+    }
+
+    function showProductMsg(text, isError) {
+        const msg = document.getElementById('productMsg');
+        msg.textContent = text;
+        msg.className = isError ? 'error' : 'success';
+        setTimeout(() => { msg.className = ''; msg.textContent = ''; }, 4000);
+    }
+
+    function startEdit(product) {
+        document.getElementById('productId').value = product.id;
+        document.getElementById('pName').value = product.name;
+        document.getElementById('pDescription').value = product.description || '';
+        document.getElementById('pPrice').value = product.price;
+        document.getElementById('pStock').value = product.stock;
+        document.getElementById('pCategory').value = product.category ? product.category.id : '';
+        document.getElementById('pImageUrl').value = product.imageUrl || '';
+        document.getElementById('pSubmitBtn').textContent = 'Save changes';
+        document.getElementById('pCancelBtn').style.display = 'inline-block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetForm() {
+        document.getElementById('productForm').reset();
+        document.getElementById('productId').value = '';
+        document.getElementById('pSubmitBtn').textContent = 'Add product';
+        document.getElementById('pCancelBtn').style.display = 'none';
+    }
+
+    document.getElementById('pCancelBtn').addEventListener('click', resetForm);
+
+    document.getElementById('productForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('pName').value.trim();
+        const price = document.getElementById('pPrice').value;
+        const stock = document.getElementById('pStock').value;
+        const categoryId = document.getElementById('pCategory').value;
+
+        if (!name || !price || !stock || !categoryId) {
+            showProductMsg('Please fill in name, price, stock, and category before submitting.', true);
+            return;
+        }
+
+        const id = document.getElementById('productId').value;
+        const body = {
+            name: name,
+            description: document.getElementById('pDescription').value,
+            price: parseFloat(price),
+            stock: parseInt(stock, 10),
+            imageUrl: document.getElementById('pImageUrl').value,
+            categoryId: parseInt(categoryId, 10)
+        };
+
+        const url = id ? `/api/products/${id}` : '/api/products';
+        const method = id ? 'PUT' : 'POST';
+
+        const res = await fetch(url, {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+
+        if (res.ok) {
+            showProductMsg(id ? 'Product updated.' : 'Product added.', false);
+            resetForm();
+            await loadProducts();
+            await loadDashboard();
+        } else {
+            const errText = await res.text();
+            showProductMsg(errText || 'Something went wrong.', true);
         }
     });
 
-    new Chart(document.getElementById('statusChart'), {
-        type: 'bar',
-        data: {
-            labels: ['verified', 'pending', 'rejected'],
-            datasets: [{
-                data: [82, 196, 74],
-                backgroundColor: '#2e9385',
-                borderRadius: 4,
-                maxBarThickness: 44
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: { legend: { display: false } },
-            scales: {
-                x: { grid: { display: false } },
-                y: { grid: { color: gridColor }, beginAtZero: true }
-            }
+    let pendingDeleteId = null;
+
+    async function deleteProduct(id) {
+        pendingDeleteId = id;
+        document.getElementById('deleteModal').classList.add('open');
+    }
+
+    document.getElementById('deleteCancelBtn').addEventListener('click', () => {
+        pendingDeleteId = null;
+        document.getElementById('deleteModal').classList.remove('open');
+    });
+
+    document.getElementById('deleteConfirmBtn').addEventListener('click', async () => {
+        const id = pendingDeleteId;
+        document.getElementById('deleteModal').classList.remove('open');
+        if (!id) return;
+
+        const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+            showProductMsg('Product deleted.', false);
+            await loadProducts();
+            await loadDashboard();
+        } else {
+            const errText = await res.text();
+            showProductMsg(errText || 'Could not delete product.', true);
         }
     });
 
-    new Chart(document.getElementById('hourChart'), {
-        type: 'bar',
-        data: {
-            labels: ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'],
-            datasets: [{
-                data: [6, 5, 7, 4, 6, 2, 3, 5],
-                backgroundColor: ['#16a34a','#2e9385','#16a34a','#2e9385','#16a34a','#2e9385','#16a34a','#2e9385'],
-                borderRadius: 4,
-                maxBarThickness: 30
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: { legend: { display: false } },
-            scales: {
-                x: { grid: { display: false } },
-                y: { grid: { color: gridColor }, beginAtZero: true }
-            }
-        }
-    });
+
+    loadDashboard();
+    loadCategories();
+    loadProducts();
 </script>
 </body>
 </html>
